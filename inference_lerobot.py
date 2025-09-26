@@ -25,6 +25,7 @@ def main():
     opt = EasyDict(opt)
 
     opt['actionvae_pretrained_path'] = args.action_vae_path
+    logging.warning(f"[opt] {opt}")
 
     device = torch.device(f'cuda:{args.device}')
 
@@ -33,6 +34,7 @@ def main():
                                   args.precision,
                                   opt,
                                   device)
+    logging.warning(f"[vla_model] {vla_model}")
 
 
     img = None # image from the front camera, type: numpy.ndarray, uint8, shape: (H, W, 3)
