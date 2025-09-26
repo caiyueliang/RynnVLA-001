@@ -2,6 +2,7 @@ import argparse
 
 import torch
 import yaml
+import logging
 from easydict import EasyDict
 
 from inferencer.lerobot_inferencer import LeRobotInferencer
@@ -25,7 +26,7 @@ def main():
 
     opt['actionvae_pretrained_path'] = args.action_vae_path
 
-    device = torch.device('cuda:0')
+    device = torch.device(f'cuda:{args.device}')
 
     # define models
     vla_model = LeRobotInferencer(args.vla_ckpt_path,
@@ -48,7 +49,10 @@ def main():
         }
 
     # example of one forward pass
+    logging.warning(f"[obs] {obs}")
+    logging.warning(f"[lang_annotation] {lang_annotation}")
     _, action = vla_model.step(obs, lang_annotation)
+    logging.warning(f"[action] {action}")
 
 
 if __name__ == "__main__":
